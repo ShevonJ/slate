@@ -35,31 +35,6 @@ html, body {
   height: 100%;
   -webkit-text-size-adjust: none; /* Never autoresize text */
 }
-.Flex-flex {
-    display: -ms-flexbox;
-    display: -webkit-box;
-    display: flex;
-}
-.Box-root {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.SVG--color svg {
-    fill: currentColor;
-}
-svg:not(:root) {
-    overflow: hidden;
-}
-
-.DarkModeIcon, .LightModeIcon {
-	transition: transform .2s;
-	transform: scaleX(1) scaleY(1) rotate(0deg);
-	position: absolute;
-}
-
-.dark-mode-animating .DarkModeIcon, body:not(.dark-mode) .DarkModeIcon {
-	transform: scaleX(0) scaleY(0) rotate(-90deg);
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // TABLE OF CONTENTS
@@ -84,9 +59,8 @@ svg:not(:root) {
   bottom: 0;
   width: $nav-width;
   background-color: $nav-bg;
-  font-size: 14px;
-  font-weight: 500;
-  box-shadow: inset -1px 0 0 0 #e3e8ee;
+  font-size: 13px;
+  font-weight: bold;
 
   // language selector for mobile devices
   .lang-selector {
@@ -98,80 +72,12 @@ svg:not(:root) {
   }
 
   // This is the logo at the top of the ToC
-  .logo-wrapper {
-	  &:after {
-		  content: '';
-		  display: block;
-		  clear: both;
-	  }
-		
-	}
   .logo {
     display: block;
-	  float: left;
-	  padding: 15px;
-    max-width: 75%;
-	  height: 68px;
-	  box-sizing: border-box;
+    max-width: 100%;
     margin-bottom: $logo-margin;
-	  
-	  & .logo-img {
-		  max-height: 100%;
-	  }
   }
 
-  button.DarkModeSwitch {
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
-	cursor: pointer;
-	background: transparent;
-	text-decoration: none;
-	border: none;
-	display: inline-block;
-	border: 0;
-	padding: 0;
-  }
-  .DarkModeSwitch {
-    position: relative;
-    margin: 25px 20px;
-    width: 30px;
-	float: right;
-	  
-    .DarkModeSwitch-track {
-		position: absolute;
-		border-radius: 16px;
-		background: #e3e8ee;
-		height: 12px;
-		left: 0;
-		right: 0;
-		margin-top: 3px;
-	}
-	  
-	.DarkModeSwitch-knob {
-		position: relative;
-		background: #fff;
-		border-radius: 100%;
-		box-shadow: 0 0 0 1px rgba(0,0,0,.07), 0 1px 3px 0 rgba(59,65,94,.1);
-		width: 18px;
-		height: 18px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: transform .2s,background .2s;
-		
-		.LightModeIcon {
-			color: #efc078;
-		}
-		
-		.DarkModeIcon {
-			color: #3d4eac;
-		}
-	}
-	  
-	  
-  }
-	
   &>.search {
     position: relative;
 
@@ -267,16 +173,6 @@ svg:not(:root) {
     padding-left: $nav-padding + $nav-indent;
     font-size: 12px;
   }
-  
-  .toc-list-h3 {
-    display: none;
-    background-color: $nav-subitem-bg;
-  }
-
-  .toc-h3 {
-    padding-left: $nav-padding + $nav-padding + $nav-indent;
-    font-size: 12px;
-  }
 
   .toc-footer {
     padding: 1em 0;
@@ -311,10 +207,6 @@ svg:not(:root) {
   transition-property: background;
   transition-timing-function: linear;
   transition-duration: 130ms;
-	
-	&:hover {
-		color: $nav-text-hover;
-	}
 }
 
 // button to show navigation on mobile devices
@@ -447,12 +339,9 @@ svg:not(:root) {
     padding-left: $main-padding + 15px;
   }
 
-// the div is the tocify hidden div for placeholding stuff
-  & > h1,
-  & > h2,
-  & > h3,
-  & > div {
-    clear: both;
+  // the div is the tocify hidden div for placeholding stuff
+  &>h1, &>h2, &>div {
+    clear:both;
   }
 
   h1 {
@@ -498,7 +387,7 @@ svg:not(:root) {
   }
 
   h4, h5, h6 {
-    font-size: 15px;
+    font-size: 10px;
   }
 
   hr {
