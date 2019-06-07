@@ -1,3 +1,5 @@
+@import 'variables';
+
 /*! normalize.css v3.0.2 | MIT License | git.io/normalize */
 
 /**
@@ -88,6 +90,8 @@ template {
 
 a {
     background-color: transparent;
+	color: $green-3dcart;
+    text-decoration: none;
 }
 
 /**
@@ -97,6 +101,9 @@ a {
 a:active,
 a:hover {
     outline: 0;
+}
+a:hover {
+	text-decoration: underline;
 }
 
 /* Text-level semantics

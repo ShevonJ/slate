@@ -35,6 +35,11 @@ html, body {
   height: 100%;
   -webkit-text-size-adjust: none; /* Never autoresize text */
 }
+body {
+	* {
+		//@include transition;
+	}
+}
 .Flex-flex {
     display: -ms-flexbox;
     display: -webkit-box;
@@ -57,19 +62,29 @@ svg:not(:root) {
 	position: absolute;
 }
 
-.dark-mode-animating .DarkModeIcon, body:not(.dark-mode) .DarkModeIcon {
-	transform: scaleX(0) scaleY(0) rotate(-90deg);
+:target:before {
+	content:"";
+	display:block;
+	height:50px; /* fixed header height*/
+	margin:-50px 0 0; /* negative fixed header height */
 }
-
 ////////////////////////////////////////////////////////////////////////////////
 // TABLE OF CONTENTS
 ////////////////////////////////////////////////////////////////////////////////
 
-#toc > ul > li > a > span {
-  float: right;
-  background-color: #2484FF;
-  border-radius: 40px;
-  width: 20px;
+#toc {
+	position: absolute;
+	top: 120px;
+	bottom: 60px;
+	overflow: hidden;
+	width: 100%;
+	
+	& > ul > li > a > span {
+	  float: right;
+	  background-color: #2484FF;
+	  border-radius: 40px;
+	  width: 20px;
+	}
 }
 
 .toc-wrapper {
@@ -137,6 +152,13 @@ svg:not(:root) {
     margin: 25px 20px;
     width: 30px;
 	float: right;
+
+	& input {
+		/* opacity: 0; */
+		/* width: 0; */
+		/* height: 0; */
+		display: none;
+	}
 	  
     .DarkModeSwitch-track {
 		position: absolute;
@@ -165,7 +187,7 @@ svg:not(:root) {
 		}
 		
 		.DarkModeIcon {
-			color: #3d4eac;
+			color: $green-3dcart;
 		}
 	}
 	  
@@ -279,9 +301,12 @@ svg:not(:root) {
   }
 
   .toc-footer {
+	  position: absolute;
+	  bottom: 0;
+	  width: 100%;
     padding: 1em 0;
     margin-top: 1em;
-    border-top: 1px dashed $nav-footer-border-color;
+    border-top: 1px solid $nav-footer-border-color;
 
     li,a {
       color: $nav-text;
@@ -363,6 +388,7 @@ svg:not(:root) {
   min-height: 100%;
 
   padding-bottom: 1px; // prevent margin overflow
+  padding: 50px 100px;
 
   // The dark box is what gives the code samples their dark background.
   // It sits essentially under the actual content block, which has a
@@ -370,18 +396,21 @@ svg:not(:root) {
   // I know, it's hackish, but it's the simplist way to make the left
   // half of the content always this background color.
   .dark-box {
-    width: $examples-width;
-    background-color: $examples-bg;
-    position: absolute;
-    right: 0;
+    min-width: calc(40% - 200px);
+    background-color: $code-bg;
+    position: fixed;
+    right: 100px;
     top: 0;
-    bottom: 0;
+	// height: 40px;
+	  z-index: 20000;
   }
 
   .lang-selector {
-    position: fixed;
+    position: relative;
     z-index: 50;
-    border-bottom: 5px solid $lang-select-active-bg;
+	margin: 0px 0;
+    border-bottom: 3px solid $green-3dcart;
+	//width: calc(40% - 200px);  
   }
 }
 
@@ -462,7 +491,7 @@ svg:not(:root) {
     padding-bottom: 0.5em;
     margin-bottom: $h1-margin-bottom;
     margin-top: 2em;
-    border-top: 1px solid #ccc;
+    border-top: 0px solid #ccc;
     border-bottom: 1px solid #ccc;
     background-color: #fdfdfd;
   }
@@ -475,10 +504,10 @@ svg:not(:root) {
   h2 {
     @extend %header-font;
     font-size: 19px;
-    margin-top: 4em;
+    margin-top: 5em;
     margin-bottom: 0;
-    border-top: 1px solid #ccc;
-    padding-top: 1.2em;
+   border-top: 0px solid #ccc;
+    //padding-top: 1.2em;
     padding-bottom: 1.2em;
     background-image: linear-gradient(to bottom, rgba(#fff, 0.2), rgba(#fff, 0));
   }
@@ -486,7 +515,7 @@ svg:not(:root) {
   // h2s right after h1s should bump right up
   // against the h1s.
   h1 + h2, h1 + div + h2 {
-    margin-top: $h1-margin-bottom * -1;
+    margin-top: 2em;
     border-top: none;
   }
 
@@ -644,12 +673,18 @@ svg:not(:root) {
       border-bottom: dashed 1px #ccc;
     }
   }
-
+	
+  blockquote {
+	  border-radius: 5px 5px 0px 0px;
+	  overflow: hidden;
+  }
   pre {
     @extend %code-font;
     padding-top: 2em;
     padding-bottom: 2em;
     padding: 2em $main-padding;
+	  border-radius: 0px 0px 5px 5px;
+	  margin-bottom: 30px;
   }
 
   blockquote {
@@ -723,4 +758,130 @@ svg:not(:root) {
 
 .highlight, .highlight .w {
   background-color: $code-bg;
+}
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+// DARK MODE
+////////////////////////////////////////////////////////////////////////////////
+.dark-mode-animating .DarkModeIcon, body:not(.dark-mode) .DarkModeIcon {
+	transform: scaleX(0) scaleY(0) rotate(-90deg);
+}
+.dark-mode-animating .LightModeIcon, body.dark-mode .LightModeIcon {
+    transform: scaleX(0) scaleY(0) rotate(90deg) !important;
+}
+
+body.dark-mode {
+	background: $dark-bg;
+	color: $dark-bg-text;
+	
+	.toc-wrapper, .page-wrapper {
+		background: $dark-bg;
+	}
+	.toc-wrapper {
+	  &>.search {
+
+		input {
+		  background: $dark-bg;
+		  border-color: $search-box-border-color;
+		  color: $dark-bg-text;
+		}
+
+		&:before {
+		  left: $nav-padding;
+		  color: $dark-bg-text;
+		}
+	  }
+		
+	}
+	
+	.toc-link, .toc-footer li {
+	  color: $dark-nav-text;
+
+		&:hover {
+			color: $dark-bg-text;
+		}
+	}
+
+	// This is the currently selected ToC entry
+	.toc-link.active {
+		background-color: $nav-active-bg;
+		color: $nav-active-text;
+	}
+
+	// this is parent links of the currently selected ToC entry
+	.toc-link.active-parent {
+		background-color: $nav-active-parent-bg;
+		color: $nav-active-parent-text;
+	}
+
+	.toc-list-h2 {
+		background-color: $dark-bg;
+	}
+
+	.toc-list-h3 {
+		background-color: $dark-bg;
+	}
+
+	.toc-footer {
+
+		li,a {
+		  color: $nav-text;
+		}
+	}
+	
+	.DarkModeSwitch-knob {
+		background: $dark-bg !important;
+		box-shadow: 0 0 0 1px $green-3dcart !important;
+		transform: translateX(12px) !important;
+	}
+	
+	.DarkModeSwitch-track {
+		background: #565454 !important;
+	}
+	
+	.content {
+	  h1 {
+		border-bottom: 1px solid #ccc;
+		background-color: $dark-bg;
+	  }
+
+	  h1:first-child, div:first-child + h1 {
+		border-top-width: 0;
+		margin-top: 0;
+	  }
+
+	  h2 {
+	   border-top: 0px solid #ccc;
+		background-image: none;
+		  border-bottom: 1px solid #fff;
+	  }
+		
+	  table {
+
+		th {
+		  padding: 5px 10px;
+		  border-bottom: 1px solid #ccc;
+		  vertical-align: bottom;
+		}
+
+		td {
+		  padding: 10px;
+		}
+
+		tr:last-child {
+		  border-bottom: 1px solid #ccc;
+		}
+
+		tr:nth-child(odd)>td {
+		  background-color: lighten($dark-bg,4.2%);
+		}
+
+		tr:nth-child(even)>td {
+		  background-color: lighten($dark-bg,2.4%);
+		}
+	  }
+		
+	}
 }
